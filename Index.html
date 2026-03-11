@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ma Routine Ramadan</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#FFF8F3,#F0EEFF,#EEF7FF);min-height:100vh;padding-bottom:60px}
+/* HEADER */
+.hdr{background:linear-gradient(135deg,#FF9F5A,#c084fc);padding:22px 20px 30px;text-align:center;position:relative;overflow:hidden}
+.hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:20px;background:#FFF8F3;clip-path:ellipse(55% 100% at 50% 100%)}
+.h-sub{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.85);text-transform:uppercase;margin-bottom:3px}
+.h-date{font-size:13px;font-weight:800;color:rgba(255,255,255,.95);margin-bottom:4px}
+.h-title{font-size:21px;color:#fff;font-weight:900;margin-bottom:5px}
+.h-quote{font-size:11px;color:rgba(255,255,255,.9);font-style:italic}
+/* CARDS */
+.card{max-width:500px;margin:12px auto 0;padding:0 12px}
+.cbox{background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+/* ENERGIE */
+.e-label{font-size:11px;font-weight:800;color:#5B21B6;margin-bottom:8px}
+.e-btns{display:flex;gap:8px}
+.ebtn{flex:1;padding:8px 4px;border-radius:10px;border:2px solid #ddd;background:#fff;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#aaa;cursor:pointer;text-align:center;line-height:1.4}
+.ebtn.ev{border-color:#34D399;background:#ECFDF5;color:#065F46}
+.ebtn.ef{border-color:#F7C043;background:#FFFBEC;color:#92400E}
+.ebtn.ec{border-color:#FB7185;background:#FFF1F2;color:#BE123C}
+.e-msg{font-size:11px;color:#888;font-style:italic;margin-top:8px;display:none;font-weight:600}
+/* PRIERES */
+.p-title{font-size:11px;font-weight:800;color:#5B21B6;margin-bottom:8px}
+.p-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.pi{text-align:center;padding:8px 3px;border-radius:10px;background:#F5F3FF}
+.pi.active{background:linear-gradient(135deg,#A78BFA,#7C3AED)}
+.pi.passed{opacity:.55}
+.pi-nom{font-size:10px;font-weight:800;color:#5B21B6}
+.pi.active .pi-nom{color:#fff}
+.pi-h{font-size:10px;font-weight:700;color:#A78BFA;margin-top:2px}
+.pi.active .pi-h{color:rgba(255,255,255,.85)}
+.p-next{font-size:10px;color:#7C3AED;font-weight:700;margin-top:8px;text-align:center}
+/* URGENCE */
+.urg-btn{display:block;max-width:500px;margin:10px auto 0;width:calc(100% - 24px);padding:11px;border-radius:12px;border:2px solid #FB7185;background:#fff;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:#FB7185;cursor:pointer;text-align:center}
+.urg-info{max-width:500px;margin:4px auto 0;text-align:center;font-size:10px;color:#FB7185;font-weight:700;display:none}
+/* PROGRESS */
+.pw{max-width:500px;margin:12px auto 0;padding:0 16px}
+.pt{display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;color:#888;font-weight:700}
+.pb{background:#E5E0FF;border-radius:50px;height:11px;overflow:hidden}
+.pf{height:100%;background:linear-gradient(90deg,#FF9F5A,#A78BFA);border-radius:50px;transition:width .5s;width:0%}
+.motiv{max-width:500px;margin:7px auto 0;padding:0 16px;text-align:center;font-size:12px;color:#A78BFA;font-weight:700;font-style:italic;min-height:16px}
+.congrats{text-align:center;margin-top:7px;font-size:17px;display:none}
+.legend{max-width:500px;margin:7px auto 0;padding:0 16px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:10px;color:#aaa;font-weight:700}
+/* SECTIONS */
+.secs{max-width:500px;margin:12px auto 0;padding:0 12px}
+.sec{background:#fff;border-radius:16px;margin-bottom:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.shdr{padding:11px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;border-left:5px solid #eee}
+.shdr h2{font-size:13px;font-weight:800}
+.badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:#eee;color:#888;white-space:nowrap}
+.chev{font-size:13px;margin-left:5px;display:inline-block;transition:transform .3s}
+.sec.col .chev{transform:rotate(-90deg)}
+.sec.col .sbody{display:none}
+.sbody{border-top:1px solid #f5f5f5}
+/* TASK ROW */
+.trow{display:flex;align-items:center;gap:10px;padding:10px 13px;cursor:pointer;border-bottom:1px solid #f9f9f9}
+.trow:last-child{border-bottom:none}
+.trow.ck{background:#f9f8ff}
+.trow.hid{display:none}
+.cb{width:22px;height:22px;border-radius:6px;border:2px solid #ddd;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;transition:all .2s;background:#fff}
+.trow.pr .cb{border-radius:50%;border-color:#A78BFA;background:#F5F3FF}
+.trow.sp .cb{border-color:#FF9F5A;background:#FFF4EC}
+.ttx{flex:1;font-size:13px;font-weight:600;color:#2D2D2D;line-height:1.3}
+.trow.ck .ttx{color:#bbb;text-decoration:line-through}
+.trow.pr .ttx{color:#7C3AED;font-weight:800}
+.trow.ck.pr .ttx{color:#C4B5FD}
+.tmeta{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0}
+.tt{font-size:10px;color:#bbb;font-weight:600}
+.td{font-size:10px;color:#F7C043}
+.tbtn{background:transparent;border:1.5px solid #ddd;border-radius:20px;padding:3px 8px;font-family:'Nunito',sans-serif;font-size:10px;font-weight:700;color:#bbb;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.tbtn.run{border-color:#34D399;color:#34D399;background:#ECFDF5}
+/* RANG AUTO */
+.rang-info{margin:0 13px 10px;border-radius:11px;padding:10px 13px}
+/* SIESTE WIDGET */
+.sw{margin:0 13px 10px;background:linear-gradient(135deg,#EEF7FF,#E0F2FE);border-radius:14px;padding:13px;border:2px solid #6BB8F5}
+.sw-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sw-title{font-size:13px;font-weight:800;color:#1D4ED8}
+.sw-badge{font-size:11px;font-weight:700;color:#fff;background:#6BB8F5;border-radius:20px;padding:3px 10px}
+.sw-presets{display:flex;gap:8px;margin-bottom:10px}
+.swp{flex:1;padding:10px 4px;border-radius:11px;border:2px solid #BAE6FD;background:#fff;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:#0369A1;cursor:pointer;text-align:center;line-height:1.4}
+.swp.sel{background:linear-gradient(135deg,#6BB8F5,#3B82F6);color:#fff;border-color:#3B82F6}
+.sw-disp{text-align:center;font-size:28px;font-weight:900;color:#1D4ED8;margin:8px 0;display:none}
+.sw-go{width:100%;padding:12px;border-radius:11px;border:none;background:linear-gradient(135deg,#6BB8F5,#3B82F6);font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;color:#fff;cursor:pointer}
+.sw-go.run{background:linear-gradient(135deg,#FB7185,#E11D48)}
+.sw-msg{text-align:center;font-size:11px;color:#0369A1;font-weight:700;margin-top:7px}
+/* BOT SECTIONS */
+.bwrap{max-width:500px;margin:0 12px 10px}
+.bsec{background:#fff;border-radius:16px;margin-bottom:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.bhdr{padding:11px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;border-left:5px solid #eee}
+.bhdr h2{font-size:13px;font-weight:800}
+.bsec.col .bbody{display:none}
+.bbody{border-top:1px solid #f5f5f5;padding:13px}
+.bhdr.todo{background:linear-gradient(135deg,#ECFDF5,#D1FAE5);border-left-color:#34D399}
+.bhdr.todo h2{color:#065F46}
+.tadd{display:flex;gap:8px;margin-bottom:10px}
+.tadd input{flex:1;border:1.5px solid #A7F3D0;border-radius:10px;padding:9px 11px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:600;color:#2D2D2D;background:#F0FDF4;outline:none}
+.tadd input:focus{border-color:#34D399;background:#fff}
+.tadd input::placeholder{color:#6EE7B7}
+.tadd-btn{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#34D399,#10B981);border:none;font-size:22px;color:#fff;cursor:pointer;flex-shrink:0}
+.ti{display:flex;align-items:center;gap:9px;padding:9px 3px;border-bottom:1px solid #F0FDF4}
+.ti:last-child{border-bottom:none}
+.ticb{width:20px;height:20px;border-radius:5px;border:2px solid #A7F3D0;background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;font-weight:900}
+.ti.dn .ticb{background:#34D399;border-color:#34D399;color:#fff}
+.titx{flex:1;font-size:13px;font-weight:600;color:#2D2D2D;cursor:pointer}
+.ti.dn .titx{color:#bbb;text-decoration:line-through}
+.tdel{background:none;border:none;cursor:pointer;font-size:14px;color:#ddd;padding:2px 4px}
+.tempty{text-align:center;color:#A7F3D0;font-size:12px;font-weight:700;padding:12px 0}
+.tftr{margin-top:9px;display:flex;justify-content:flex-end}
+.bhdr.notes{background:linear-gradient(135deg,#FEF9C3,#FEF3C7);border-left-color:#F7C043}
+.bhdr.notes h2{color:#92400E}
+.nhint{background:#ECFDF5;border-radius:8px;padding:8px 11px;font-size:11px;font-weight:700;color:#059669;margin-bottom:10px}
+.narea textarea{width:100%;border:1.5px solid #FDE68A;border-radius:10px;padding:10px 11px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:600;color:#2D2D2D;background:#FFFBEB;resize:vertical;min-height:80px;outline:none;line-height:1.6}
+.narea textarea:focus{border-color:#F7C043;background:#fff}
+.narea textarea::placeholder{color:#D97706;font-style:italic}
+.nacts{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center}
+.bn{border:none;border-radius:20px;padding:7px 13px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:#fff;cursor:pointer}
+.bn.save{background:linear-gradient(135deg,#F7C043,#FBBF24)}
+.bn.rep{background:linear-gradient(135deg,#34D399,#10B981)}
+.bn.clr{background:transparent;border:1.5px solid #ddd;color:#bbb}
+.svmsg{font-size:11px;color:#34D399;font-weight:700;display:none}
+.bhdr.hist{background:linear-gradient(135deg,#F0EEFF,#EEF7FF);border-left-color:#A78BFA}
+.bhdr.hist h2{color:#5B21B6}
+.hempty{text-align:center;color:#C4B5FD;font-size:12px;font-weight:700;padding:12px 0}
+.hi{border-radius:11px;border:1.5px solid #EDE9FE;margin-bottom:8px;overflow:hidden}
+.hi-hdr{display:flex;justify-content:space-between;align-items:center;padding:9px 13px;cursor:pointer;background:#FAFAFE}
+.hi-date{font-size:12px;font-weight:800;color:#5B21B6}
+.hi-score{font-size:11px;font-weight:700;color:#fff;background:#A78BFA;border-radius:20px;padding:3px 9px}
+.hi-det{display:none;padding:10px 13px;background:#fff;border-top:1px solid #EDE9FE}
+.hd{font-size:12px;color:#34D399;font-weight:700;padding:2px 0}
+.hu{font-size:12px;color:#ddd;text-decoration:line-through;padding:2px 0}
+.htt{font-size:10px;font-weight:800;color:#aaa;margin:7px 0 3px;text-transform:uppercase;letter-spacing:1px}
+.hti{font-size:12px;color:#A78BFA;font-weight:600;padding:2px 0}
+/* RESET + FOOTER */
+.rbtn{display:block;margin:18px auto 0;background:transparent;border:2px solid #ddd;border-radius:50px;padding:10px 26px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:#bbb;cursor:pointer}
+.footer{max-width:500px;margin:14px auto 0;padding:13px 16px;background:linear-gradient(135deg,#FFF4EC,#F5F3FF);border-radius:16px;text-align:center;font-size:11px;color:#999;line-height:1.8}
+/* TIMER MODAL */
+.tmodal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center}
+.tmodal.open{display:flex}
+.tcard{background:#fff;border-radius:22px;padding:26px 22px;text-align:center;max-width:290px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,.15)}
+.tname{font-size:12px;font-weight:700;color:#888;margin-bottom:10px;line-height:1.4}
+.tcirc{width:110px;height:110px;border-radius:50%;border:6px solid #EDE9FE;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:#F5F3FF}
+.tdisp{font-size:26px;font-weight:900;color:#5B21B6}
+.tpres{display:flex;gap:7px;justify-content:center;margin-bottom:14px;flex-wrap:wrap}
+.tp{padding:6px 11px;border-radius:20px;border:1.5px solid #EDE9FE;background:#F5F3FF;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#7C3AED;cursor:pointer}
+.tp.sel{background:#A78BFA;color:#fff;border-color:#A78BFA}
+.tctrl{display:flex;gap:9px;justify-content:center;margin-bottom:10px}
+.tb{padding:9px 18px;border-radius:20px;border:none;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer}
+.tb.go{background:linear-gradient(135deg,#A78BFA,#7C3AED);color:#fff}
+.tb.stop{background:#FFF1F2;color:#FB7185;border:2px solid #FB7185}
+.tb.cls{background:#f5f5f5;color:#888}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="h-sub">Organisation TDAH-Friendly · Ramadan 1446</div>
+  <div class="h-date" id="hdate"></div>
+  <div class="h-title">Ma Routine Ramadan 🌙💜</div>
+  <div class="h-quote">"Je prends soin de moi, de mes filles et de ma maison — un pas à la fois."</div>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <div class="cbox" style="border-left:5px solid #A78BFA">
+    <div class="e-label">🔋 Comment tu te sens aujourd'hui ?</div>
+    <div class="e-btns">
+      <button class="ebtn" id="ebtn-v" onclick="setEnergie('v')">🟢 En forme</button>
+      <button class="ebtn" id="ebtn-f" onclick="setEnergie('f')">🟡 Fatiguée</button>
+      <button class="ebtn" id="ebtn-c" onclick="setEnergie('c')">🔴 Très fatiguée</button>
+    </div>
+    <div class="e-msg" id="emsg"></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="cbox" style="border-left:5px solid #A78BFA">
+    <div class="p-title">🕌 Horaires de prière du jour</div>
+    <div class="p-grid" id="pgrid"></div>
+    <div class="p-next" id="pnext"></div>
+  </div>
+</div>
+
+<button class="urg-btn" id="ubtn" onclick="toggleUrg()">⚡ Mode Urgence — journée difficile</button>
+<div class="urg-info" id="uinfo">Mode urgence actif — seules les tâches essentielles sont affichées 💜</div>
+
+<div class="pw">
+  <div class="pt"><span>Ma progression</span><span id="score">0 / 0 ✅</span></div>
+  <div class="pb"><div class="pf" id="pbar"></div></div>
+  <div class="congrats" id="congrats">🎉 Journée complète ! Tu es une championne ! 🏆</div>
+</div>
+<div class="motiv" id="motiv"></div>
+<div class="legend">
+  <span>🟣 rond = prière</span>
+  <span>🟠 orange = moment clé</span>
+  <span>⚡ = dopamine</span>
+  <span>⏱ = timer</span>
+</div>
+
+<div class="secs" id="secs"></div>
+
+<div class="bwrap">
+  <div class="bsec" id="bsec-todo">
+    <div class="bhdr todo" id="bhdr-todo"><h2>✅ Ma Todo du jour</h2><span class="chev" style="color:#34D399">▾</span></div>
+    <div class="bbody">
+      <div class="tadd">
+        <input type="text" id="todoinput" placeholder="Ajouter une tâche... 💛">
+        <button class="tadd-btn" id="tadd-btn">＋</button>
+      </div>
+      <div id="todolist"></div>
+      <div class="tftr"><button class="bn clr" id="clrdone">🗑️ Supprimer les faites</button></div>
+    </div>
+  </div>
+
+  <div class="bsec" id="bsec-notes">
+    <div class="bhdr notes" id="bhdr-notes"><h2>📝 Notes → demain</h2><span class="chev" style="color:#F7C043">▾</span></div>
+    <div class="bbody narea">
+      <div class="nhint">💡 Tes notes seront dans ta todo <strong>demain</strong> à la prochaine ouverture !</div>
+      <textarea id="notesarea" placeholder="Un truc à ne pas oublier demain... 💛"></textarea>
+      <div class="nacts">
+        <button class="bn save" id="bsave">💾 Sauvegarder</button>
+        <button class="bn rep" id="brep">🌙 Reporter pour demain</button>
+        <button class="bn clr" id="bclr">🗑️ Effacer</button>
+        <span class="svmsg" id="svmsg"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bsec" id="bsec-hist">
+    <div class="bhdr hist" id="bhdr-hist"><h2>🗓️ Mes journées précédentes</h2><span class="chev" style="color:#A78BFA">▾</span></div>
+    <div class="bbody" id="histbody"></div>
+  </div>
+</div>
+
+<button class="rbtn" id="rbtn">🔄 Nouvelle journée</button>
+<div class="footer">
+  <strong style="color:#A78BFA">Rappel doux 💜</strong><br>
+  C'est une base, pas une prison.<br>
+  Si Tasnim chamboule tout — reprends là où tu en es. Tu avances chaque jour. 🌟
+</div>
+
+<!-- TIMER MODAL -->
+<div class="tmodal" id="tmodal">
+  <div class="tcard">
+    <div class="tname" id="tname"></div>
+    <div class="tcirc"><span class="tdisp" id="tdisp">10:00</span></div>
+    <div class="tpres">
+      <button class="tp" onclick="setTDur(5)">5 min</button>
+      <button class="tp sel" onclick="setTDur(10)">10 min</button>
+      <button class="tp" onclick="setTDur(20)">20 min</button>
+      <button class="tp" onclick="setTDur(25)">25 min</button>
+    </div>
+    <div class="tctrl">
+      <button class="tb go" id="tbgo" onclick="startT()">▶ Démarrer</button>
+      <button class="tb stop" id="tbstop" onclick="stopT()" style="display:none">⏸ Pause</button>
+    </div>
+    <button class="tb cls" onclick="closeT()">✕ Fermer</button>
+  </div>
+</div>
+
+<script>
+// ===================== DONNÉES =====================
+var DATA = [
+  {id:"s1", title:"🌙 05h00 — Suhoor & Fajr", col:"#A78BFA", bg:"#F5F3FF", tasks:[
+    {id:"t1",  tx:"Réveil — grand verre d\u2019eau 💧",     ti:"2 min",  dp:1, urg:1},
+    {id:"t2",  tx:"Suhoor 🍽️",                              ti:"15 min", dp:2, sp:1, urg:1},
+    {id:"t3",  tx:"Ablutions 🤲",                            ti:"5 min",  dp:2, pr:1, urg:1},
+    {id:"t4",  tx:"Fajr 🤲",                                 ti:"10 min", dp:3, pr:1, urg:1},
+    {id:"t5",  tx:"Moment calme pour toi ☕",                ti:"5 min",  dp:2, sp:1}
+  ]},
+  {id:"s2", title:"🎀 06h00 — Cuisine & Rym", col:"#FF9F5A", bg:"#FFF4EC", tasks:[
+    {id:"t6",  tx:"Ranger la cuisine",                       ti:"10 min", dp:1},
+    {id:"t7",  tx:"Préparer le petit-dej de Rym",            ti:"10 min", dp:2, urg:1},
+    {id:"t8",  tx:"Réveiller Rym 🎀",                        ti:"7h00",   dp:2, urg:1},
+    {id:"t9",  tx:"Préparer Rym pour l\u2019école",          ti:"20 min", dp:2, urg:1},
+    {id:"t10", tx:"Déposer Rym à l\u2019école 🎒",           ti:"8h00",   dp:3, urg:1}
+  ]},
+  {id:"s3", title:"👶 09h00 — Tasnim", col:"#FB7185", bg:"#FFF1F2", tasks:[
+    {id:"t11", tx:"Biberon Tasnim 🍼",                        ti:"15 min", dp:2, urg:1},
+    {id:"t12", tx:"Toilette bébé 🛁",                         ti:"20 min", dp:2, urg:1},
+    {id:"t13", tx:"Poser Tasnim jouer 🧸",                    ti:"—",      dp:1}
+  ]},
+  {id:"s4", title:"🏠 10h00 — Tâches du jour", col:"#F7C043", bg:"#FFFBEC", rang:1, tasks:[
+    {id:"t14", tx:"Préparer le repas 🍲",                     ti:"—",      dp:2, urg:1},
+    {id:"t15", tx:"Lancer une machine 🫧",                    ti:"—",      dp:2},
+    {id:"t16", tx:"Étendre le linge 👗",                      ti:"—",      dp:2},
+    {id:"t17", tx:"Plier le linge 🧺",                        ti:"—",      dp:2},
+    {id:"t18", tx:"Ranger le linge 👚",                       ti:"—",      dp:2},
+    {id:"t19", tx:"Rangement du bas 🏡",                      ti:"—",      dp:2, rng:"bas"},
+    {id:"t20", tx:"Rangement du haut 🛏️",                    ti:"—",      dp:2, rng:"haut"}
+  ]},
+  {id:"s5", title:"🤲 12h-13h — Dhuhr", col:"#2DD4BF", bg:"#ECFDF5", tasks:[
+    {id:"t21", tx:"Dhuhr 🤲",                                  ti:"10 min", dp:3, pr:1, urg:1},
+    {id:"t22", tx:"Tasnim à la sieste 😴",                     ti:"—",      dp:2, urg:1}
+  ]},
+  {id:"s6", title:"💜 14h00 — Sieste", col:"#6BB8F5", bg:"#EEF7FF", tasks:[
+    {id:"t23", tx:"SIESTE_WIDGET",                             ti:"",       dp:3, sieste:1, urg:1}
+  ]},
+  {id:"s7", title:"🌤️ 16h00 — Asr & Après-midi", col:"#A78BFA", bg:"#F5F3FF", tasks:[
+    {id:"t24", tx:"Asr 🤲",                                    ti:"10 min", dp:3, pr:1, urg:1},
+    {id:"t25", tx:"Finir préparation repas du soir",           ti:"20 min", dp:2, urg:1},
+    {id:"t26", tx:"Rym rentre — goûter 🍎",                    ti:"~16h30", dp:2, urg:1},
+    {id:"t27", tx:"Moment doux avec les filles 💛",            ti:"—",      dp:3, sp:1}
+  ]},
+  {id:"s8", title:"🍽️ 18h30 — Iftar & Soirée", col:"#FF9F5A", bg:"#FFF4EC", tasks:[
+    {id:"t28", tx:"Iftar — dîner en famille 🌙",               ti:"18h30",  dp:3, sp:1, urg:1},
+    {id:"t29", tx:"Biberon Tasnim 🍼",                          ti:"~19h30", dp:2, urg:1},
+    {id:"t30", tx:"Maghrib 🤲",                                 ti:"~20h00", dp:3, pr:1, urg:1},
+    {id:"t31", tx:"Toilette + coucher des filles 🌙",           ti:"30 min", dp:2, urg:1},
+    {id:"t32", tx:"Ma toilette personnelle 🚿✨",                ti:"15 min", dp:3, sp:1},
+    {id:"t33", tx:"Ranger cuisine avec mari",                   ti:"~21h",   dp:1},
+    {id:"t34", tx:"Isha 🤲",                                    ti:"~21h00", dp:3, pr:1, urg:1},
+    {id:"t35", tx:"Série / film avec mari 🎬",                  ti:"21h30",  dp:2, sp:1},
+    {id:"t36", tx:"Dodo 😴",                                    ti:"22h30",  dp:3, sp:1, urg:1}
+  ]}
+];
+
+// ===================== STORAGE =====================
+function sg(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function ss(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function sd(k){try{localStorage.removeItem(k)}catch(e){}}
+function sgj(k){try{var v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return null}}
+function ssj(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+
+// ===================== STATE =====================
+var ckd={}, rc=null, urgOn=false, enLv=null, todos=[];
+
+function loadState(){
+  var i,j,s,t;
+  for(i=0;i<DATA.length;i++){s=DATA[i];for(j=0;j<s.tasks.length;j++){t=s.tasks[j];if(sg('r_'+t.id)==='1')ckd[t.id]=true;}}
+  var u=sg('r_urg');if(u==='1')urgOn=true;
+  var e=sg('r_en');if(e)enLv=e;
+  var td=sgj('r_todos');if(td)todos=td;
+  var n=sg('r_notes');if(n)document.getElementById('notesarea').value=n;
+  initAutoRang();
+}
+
+// ===================== DATE =====================
+function initDate(){
+  var d=new Date();
+  var J=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  var M=['janvier','f\u00e9vrier','mars','avril','mai','juin','juillet','ao\u00fbt','septembre','octobre','novembre','d\u00e9cembre'];
+  document.getElementById('hdate').textContent=J[d.getDay()]+' '+d.getDate()+' '+M[d.getMonth()]+' '+d.getFullYear();
+}
+
+// ===================== PRIÈRES =====================
+function loadPrieres(){
+  // Horaires Mosquee El Amal Valserhone (Mawaqit) - Mars 2026
+  // [Fajr, Dhuhr, Asr, Maghrib, Isha]
+  var MARS=[
+    ['06:32','13:04','16:28','18:14','19:38'],
+    ['06:30','13:04','16:29','18:15','19:39'],
+    ['06:28','13:03','16:31','18:17','19:41'],
+    ['06:26','13:03','16:32','18:18','19:42'],
+    ['06:24','13:02','16:33','18:20','19:44'],
+    ['06:22','13:02','16:35','18:21','19:45'],
+    ['06:20','13:02','16:36','18:22','19:47'],
+    ['06:18','13:01','16:37','18:24','19:48'],
+    ['06:16','13:01','16:39','18:25','19:50'],
+    ['06:14','13:00','16:40','18:26','19:51'],
+    ['05:46','12:51','15:59','18:39','20:09'],
+    ['05:44','12:51','16:01','18:40','20:11'],
+    ['05:42','12:50','16:02','18:42','20:12'],
+    ['05:40','12:50','16:03','18:43','20:14'],
+    ['05:38','12:49','16:05','18:44','20:15'],
+    ['05:36','12:49','16:06','18:46','20:17'],
+    ['05:34','12:48','16:07','18:47','20:18'],
+    ['05:32','12:48','16:09','18:48','20:20'],
+    ['05:30','12:47','16:10','18:50','20:21'],
+    ['05:28','12:47','16:11','18:51','20:23'],
+    ['05:26','12:46','16:13','18:52','20:24'],
+    ['05:24','12:46','16:14','18:54','20:26'],
+    ['05:22','12:45','16:15','18:55','20:27'],
+    ['05:20','12:45','16:17','18:56','20:29'],
+    ['05:18','12:44','16:18','18:58','20:30'],
+    ['05:16','12:44','16:19','18:59','20:32'],
+    ['05:14','12:43','16:21','19:00','20:33'],
+    ['05:12','12:43','16:22','19:02','20:35'],
+    ['05:10','12:42','16:23','19:03','20:36'],
+    ['05:08','12:42','16:25','19:04','20:38'],
+    ['05:06','12:41','16:26','19:06','20:39']
+  ];
+  var day=new Date().getDate()-1;
+  var t=MARS[Math.min(day,MARS.length-1)];
+  renderPrieres([{n:'Fajr',h:t[0]},{n:'Dhuhr',h:t[1]},{n:'Asr',h:t[2]},{n:'Maghrib',h:t[3]},{n:'Isha',h:t[4]}]);
+}
+function renderPrieres(ps){
+  var now=new Date(), nm=now.getHours()*60+now.getMinutes();
+  var ni=-1, nMin=99999, i, pm;
+  for(i=0;i<ps.length;i++){pm=toMin(ps[i].h);if(pm>nm&&pm<nMin){nMin=pm;ni=i;}}
+  var html='';
+  for(i=0;i<ps.length;i++){
+    pm=toMin(ps[i].h);
+    var cls='pi'+(pm<nm?' passed':'')+(i===ni?' active':'');
+    html+='<div class="'+cls+'"><div class="pi-nom">'+ps[i].n+'</div><div class="pi-h">'+ps[i].h+'</div></div>';
+  }
+  document.getElementById('pgrid').innerHTML=html;
+  var nxt=document.getElementById('pnext');
+  if(ni>=0){var diff=nMin-nm;var h=Math.floor(diff/60),m=diff%60;nxt.textContent='Prochaine : '+ps[ni].n+' dans '+(h>0?h+'h'+pad(m)+'min':m+' min');}
+  else nxt.textContent='Toutes les pri\u00e8res sont pass\u00e9es — Barak Allahu fik 🤲';
+}
+function toMin(h){var p=h.split(':');return parseInt(p[0])*60+parseInt(p[1]);}
+function pad(n){return String(n).padStart(2,'0');}
+
+// ===================== ÉNERGIE =====================
+var EMSG={v:"Super ! Tu peux tout faire aujourd\u2019hui 💪",f:"Journ\u00e9e douce — fais le minimum, la sieste est obligatoire 💜",c:"Mode douceur total — pri\u00e8res + b\u00e9b\u00e9 + repas seulement. Tout le reste attend. 🤍"};
+function setEnergie(lv){
+  enLv=lv; ss('r_en',lv);
+  ['v','f','c'].forEach(function(x){document.getElementById('ebtn-'+x).className='ebtn';});
+  var cls={v:'ebtn ev',f:'ebtn ef',c:'ebtn ec'};
+  document.getElementById('ebtn-'+lv).className=cls[lv];
+  var m=document.getElementById('emsg'); m.textContent=EMSG[lv]; m.style.display='block';
+  if(lv==='c'&&!urgOn){urgOn=true;ss('r_urg','1');applyUrg();updateUI();}
+}
+function initEnergie(){
+  if(!enLv) return;
+  ['v','f','c'].forEach(function(x){document.getElementById('ebtn-'+x).className='ebtn';});
+  var cls={v:'ebtn ev',f:'ebtn ef',c:'ebtn ec'};
+  document.getElementById('ebtn-'+enLv).className=cls[enLv];
+  var m=document.getElementById('emsg'); m.textContent=EMSG[enLv]; m.style.display='block';
+}
+
+// ===================== URGENCE =====================
+function toggleUrg(){
+  urgOn=!urgOn; ss('r_urg',urgOn?'1':'0');
+  document.getElementById('ubtn').textContent=urgOn?'\u2715 D\u00e9sactiver le mode urgence':'\u26a1 Mode Urgence — journ\u00e9e difficile';
+  document.getElementById('ubtn').style.background=urgOn?'#FFF1F2':'#fff';
+  document.getElementById('uinfo').style.display=urgOn?'block':'none';
+  applyUrg(); updateUI();
+}
+function applyUrg(){
+  document.querySelectorAll('.trow').forEach(function(r){
+    var id=r.id.replace('row_',''), t=findT(id);
+    if(!t) return;
+    if(urgOn&&!t.urg) r.classList.add('hid'); else r.classList.remove('hid');
+  });
+}
+function findT(id){for(var i=0;i<DATA.length;i++) for(var j=0;j<DATA[i].tasks.length;j++) if(DATA[i].tasks[j].id===id) return DATA[i].tasks[j]; return null;}
+
+// ===================== RANG AUTO =====================
+function initAutoRang(){
+  var lastDate=sg('r_rang_dt'), lastChoice=sg('r_rang'), today=new Date().toDateString();
+  if(lastDate===today){rc=lastChoice||'bas';}
+  else{rc=(lastChoice==='bas')?'haut':'bas'; ss('r_rang',rc); ss('r_rang_dt',today);}
+}
+
+// ===================== TIMER =====================
+var tDur=10*60, tLeft=10*60, tInterval=null, tRun=false;
+function openT(name){document.getElementById('tname').textContent=name;document.getElementById('tmodal').className='tmodal open';setTDur(10);}
+function closeT(){stopT();document.getElementById('tmodal').className='tmodal';}
+function setTDur(m){tDur=m*60;tLeft=m*60;if(tRun)stopT();document.getElementById('tdisp').textContent=fmt(tLeft);document.querySelectorAll('.tp').forEach(function(b,i){b.className='tp'+([5,10,20,25][i]===m?' sel':'');});}
+function fmt(s){return pad(Math.floor(s/60))+':'+pad(s%60);}
+function startT(){
+  if(tRun) return; tRun=true;
+  document.getElementById('tbgo').style.display='none';
+  document.getElementById('tbstop').style.display='inline-block';
+  tInterval=setInterval(function(){
+    tLeft--;document.getElementById('tdisp').textContent=fmt(tLeft);
+    if(tLeft<=0){clearInterval(tInterval);tRun=false;document.getElementById('tdisp').textContent='\u2713 Fini !';document.getElementById('tbstop').style.display='none';document.getElementById('tbgo').style.display='inline-block';if(navigator.vibrate)navigator.vibrate([300,100,300]);}
+  },1000);
+}
+function stopT(){clearInterval(tInterval);tRun=false;tLeft=tDur;document.getElementById('tdisp').textContent=fmt(tLeft);document.getElementById('tbstop').style.display='none';document.getElementById('tbgo').style.display='inline-block';}
+
+// ===================== SIESTE =====================
+var sMin=45, sLeft=45*60, sInt=null, sRun=false;
+function setSieste(m){
+  sMin=m; sLeft=m*60; if(sRun)stopSieste();
+  var d=document.getElementById('sw-disp'); if(d)d.textContent=fmt(sLeft);
+  document.querySelectorAll('.swp').forEach(function(b){b.className='swp'+(parseInt(b.getAttribute('data-m'))===m?' sel':'');});
+}
+function toggleSieste(){if(sRun)stopSieste();else startSieste();}
+function startSieste(){
+  sRun=true; sLeft=sMin*60;
+  var go=document.getElementById('sw-go'),disp=document.getElementById('sw-disp'),msg=document.getElementById('sw-msg');
+  if(go){go.className='sw-go run';go.textContent='\u23f8 Arr\u00eater';}
+  if(disp)disp.style.display='block';
+  if(msg)msg.textContent='Repose-toi bien\u2026 tu le m\u00e9rites 💜';
+  sInt=setInterval(function(){
+    sLeft--;var d=document.getElementById('sw-disp');if(d)d.textContent=fmt(sLeft);
+    if(sLeft<=0){
+      clearInterval(sInt);sRun=false;
+      var d2=document.getElementById('sw-disp'),g2=document.getElementById('sw-go'),m2=document.getElementById('sw-msg');
+      if(d2)d2.textContent='\u2713 R\u00e9veil !';
+      if(g2){g2.className='sw-go';g2.textContent='\u25b6 Recommencer';}
+      if(m2)m2.textContent='🎉 Sieste termin\u00e9e ! Tu es recharg\u00e9e 💪';
+      var wk=wkKey(), dat=sgj('r_sw')||{};dat[wk]=(dat[wk]||0)+1;ssj('r_sw',dat);
+      var badge=document.getElementById('sw-badge');if(badge)badge.textContent='\ud83d\ude34 '+dat[wk]+' cette semaine';
+      if(navigator.vibrate)navigator.vibrate([400,100,400]);
+    }
+  },1000);
+}
+function stopSieste(){clearInterval(sInt);sRun=false;sLeft=sMin*60;var go=document.getElementById('sw-go'),d=document.getElementById('sw-disp');if(go){go.className='sw-go';go.textContent='\u25b6 D\u00e9marrer ma sieste';}if(d)d.style.display='none';}
+function wkKey(){var d=new Date(),diff=d.getDate()-d.getDay()+(d.getDay()===0?-6:1);var mo=new Date(d.setDate(diff));return mo.getFullYear()+'-'+pad(mo.getMonth()+1)+'-'+pad(mo.getDate());}
+function getSiesteCount(){var dat=sgj('r_sw')||{};return dat[wkKey()]||0;}
+
+// ===================== VIS =====================
+function isVis(t){return !(t.rng&&t.rng!==rc);}
+function allVis(){var out=[];for(var i=0;i<DATA.length;i++) for(var j=0;j<DATA[i].tasks.length;j++) if(isVis(DATA[i].tasks[j])) out.push(DATA[i].tasks[j]);return out;}
+
+// ===================== PROGRESS =====================
+var MVS=['Commence par une seule t\u00e2che — c\u2019est tout ce qu\u2019on te demande 💪','Tu avances ! Chaque case = \u00e9nergie r\u00e9cup\u00e9r\u00e9e pour toi ✨','Tu g\u00e8res ta maison, tes filles et le Ramadan. Tu es incroyable 🌱','Plus que quelques t\u00e2ches ! Tu tiens le bon bout 🚀','Presque l\u00e0 ! Tu assures vraiment aujourd\u2019hui 🌟','🎉 JOURN\u00c9E COMPL\u00c8TE ! Quelle championne tu es !'];
+function updateUI(){
+  var vis=allVis(), done=0, tot=0, i;
+  for(i=0;i<vis.length;i++){if(vis[i].sieste) continue; tot++;if(ckd[vis[i].id]&&(!urgOn||vis[i].urg)) done++;}
+  if(urgOn){tot=0;for(i=0;i<vis.length;i++){if(vis[i].sieste||!vis[i].urg) continue;tot++;}}
+  var pct=tot?Math.round(done/tot*100):0;
+  document.getElementById('score').textContent=done+' / '+tot+' ✅';
+  document.getElementById('pbar').style.width=pct+'%';
+  document.getElementById('motiv').textContent=MVS[Math.min(Math.floor(pct/100*(MVS.length-1)),MVS.length-1)];
+  document.getElementById('congrats').style.display=pct===100?'block':'none';
+  updateBadges();
+}
+function updateBadges(){
+  for(var i=0;i<DATA.length;i++){
+    var s=DATA[i],vis=[],done=0;
+    for(var j=0;j<s.tasks.length;j++){if(s.tasks[j].sieste) continue; if(isVis(s.tasks[j])){vis.push(s.tasks[j]);if(ckd[s.tasks[j].id])done++;}}
+    var el=document.getElementById('bdg_'+s.id);if(!el) continue;
+    el.textContent=done+'/'+vis.length;
+    el.style.background=vis.length&&done===vis.length?s.col:'#eee';
+    el.style.color=vis.length&&done===vis.length?'#fff':'#888';
+  }
+}
+
+// ===================== TOGGLE TASK =====================
+function toggleTask(id){
+  ckd[id]=!ckd[id]; ss('r_'+id,ckd[id]?'1':'0');
+  var s=null,t=null;
+  for(var i=0;i<DATA.length;i++) for(var j=0;j<DATA[i].tasks.length;j++) if(DATA[i].tasks[j].id===id){s=DATA[i];t=DATA[i].tasks[j];}
+  var row=document.getElementById('row_'+id),cb=document.getElementById('cb_'+id);
+  if(!row||!t) return;
+  var ck=ckd[id];
+  row.className=row.className.replace(' ck','')+' ck '.replace(' ck ','')+(ck?' ck':'');
+  // rebuild className cleanly
+  var cls='trow'+(t.pr?' pr':t.sp?' sp':'')+(ck?' ck':'')+(t.rng&&t.rng!==rc?' hid':'')+(urgOn&&!t.urg?' hid':'');
+  row.className=cls;
+  cb.textContent=ck?'\u2713':'';
+  var acc=t.pr?'#A78BFA':t.sp?'#FF9F5A':s.col;
+  cb.style.background=ck?acc:(t.pr?'#F5F3FF':t.sp?'#FFF4EC':'#fff');
+  cb.style.borderColor=ck?acc:(t.pr?'#A78BFA':t.sp?'#FF9F5A':'#ddd');
+  cb.style.color=ck?'#fff':'';
+  updateUI();
+}
+
+// ===================== TODO =====================
+function saveTodos(){ssj('r_todos',todos);}
+function addTodo(txt){
+  var inp=document.getElementById('todoinput');
+  var t=(txt||(inp?inp.value:'')||'').trim();if(!t)return;
+  todos.push({id:'td'+Date.now()+'x'+Math.floor(Math.random()*9999),text:t,done:false});
+  saveTodos();if(inp&&!txt)inp.value='';renderTodos();
+}
+function toggleTodo(id){for(var i=0;i<todos.length;i++)if(todos[i].id===id){todos[i].done=!todos[i].done;break;}saveTodos();renderTodos();}
+function delTodo(id){todos=todos.filter(function(t){return t.id!==id;});saveTodos();renderTodos();}
+function renderTodos(){
+  var el=document.getElementById('todolist');if(!el)return;
+  if(!todos.length){el.innerHTML='<div class="tempty">Aucune t\u00e2che pour l\u2019instant 🌿</div>';return;}
+  var h='';
+  for(var i=0;i<todos.length;i++){
+    var t=todos[i];
+    h+='<div class="ti'+(t.done?' dn':'')+'"><div class="ticb" onclick="toggleTodo(\''+t.id+'\')">'+(t.done?'\u2713':'')+'</div><div class="titx" onclick="toggleTodo(\''+t.id+'\')">'+t.text+'</div><button class="tdel" onclick="delTodo(\''+t.id+'\')">✕</button></div>';
+  }
+  el.innerHTML=h;
+}
+
+// ===================== NOTES =====================
+function saveNotes(){ss('r_notes',document.getElementById('notesarea').value);flash('\u2713 Sauvegard\u00e9 !');}
+function clearNotes(){document.getElementById('notesarea').value='';sd('r_notes');}
+function reportNotes(){
+  var notes=document.getElementById('notesarea').value.trim();
+  if(!notes){alert('Aucune note \u00e0 reporter 😊');return;}
+  var today=new Date().toDateString(),dem=sgj('r_dem')||{date:'',items:[]};
+  dem.date=today;
+  var lines=notes.split('\n');
+  for(var i=0;i<lines.length;i++){var l=lines[i].trim();if(l)dem.items.push({id:'td'+Date.now()+'_'+i,text:l,done:false});}
+  ssj('r_dem',dem);flash('🌙 Report\u00e9 pour demain !');
+}
+function loadDemain(){
+  var dem=sgj('r_dem');if(!dem||!dem.items||!dem.items.length)return;
+  if(dem.date===new Date().toDateString())return;
+  for(var i=0;i<dem.items.length;i++)todos.unshift(dem.items[i]);
+  saveTodos();sd('r_dem');
+}
+function flash(msg){var el=document.getElementById('svmsg');el.textContent=msg;el.style.display='inline';setTimeout(function(){el.style.display='none';},2500);}
+
+// ===================== HISTORIQUE =====================
+function saveHistory(){
+  var today=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  var vis=allVis(),done=[],undone=[];
+  for(var i=0;i<vis.length;i++){if(vis[i].sieste)continue;if(ckd[vis[i].id])done.push(vis[i].tx);else undone.push(vis[i].tx);}
+  var hist=sgj('r_hist')||[];
+  hist.unshift({date:today,score:done.length+'/'+(done.length+undone.length),done:done,undone:undone,todos:todos.map(function(t){return{text:t.text,done:t.done};})});
+  if(hist.length>14)hist=hist.slice(0,14);
+  ssj('r_hist',hist);
+}
+function toggleHist(i){var el=document.getElementById('hd_'+i);if(!el)return;el.style.display=el.style.display==='block'?'none':'block';}
+function clearHistory(){
+  ssj('r_hist',[]);renderHistory();
+}
+function renderHistory(){
+  var el=document.getElementById('histbody');if(!el)return;
+  var hist=sgj('r_hist')||[];
+  if(!hist.length){el.innerHTML='<div class="hempty">Aucune journ\u00e9e sauvegard\u00e9e pour l\u2019instant 🌿</div>';return;}
+  var h='<div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button onclick="clearHistory()" style="background:transparent;border:1.5px solid #ddd;border-radius:20px;padding:6px 13px;font-family:Nunito,sans-serif;font-size:11px;font-weight:700;color:#bbb;cursor:pointer">🗑️ Tout effacer</button></div>';
+  for(var i=0;i<hist.length;i++){
+    var d=hist[i],det='';
+    for(var j=0;j<d.done.length;j++)det+='<div class="hd">\u2713 '+d.done[j]+'</div>';
+    for(var j=0;j<d.undone.length;j++)det+='<div class="hu">'+d.undone[j]+'</div>';
+    if(d.todos&&d.todos.length){det+='<div class="htt">Todo du jour</div>';for(var j=0;j<d.todos.length;j++)det+='<div class="hti">'+(d.todos[j].done?'\u2713':'\u2022')+' '+d.todos[j].text+'</div>';}
+    h+='<div class="hi"><div class="hi-hdr" onclick="toggleHist('+i+')"><span class="hi-date">'+d.date+'</span><span class="hi-score">'+d.score+' ✅</span></div><div class="hi-det" id="hd_'+i+'" style="display:none">'+det+'</div></div>';
+  }
+  el.innerHTML=h;
+}
+
+// ===================== RESET =====================
+function resetAll(){
+  saveHistory();
+  ckd={}; urgOn=false; enLv=null; todos=[];
+  for(var i=0;i<DATA.length;i++) for(var j=0;j<DATA[i].tasks.length;j++) sd('r_'+DATA[i].tasks[j].id);
+  sd('r_todos');sd('r_urg');sd('r_en');
+  document.getElementById('notesarea').value='';sd('r_notes');
+  ['v','f','c'].forEach(function(x){document.getElementById('ebtn-'+x).className='ebtn';});
+  document.getElementById('emsg').style.display='none';
+  document.getElementById('ubtn').textContent='\u26a1 Mode Urgence — journ\u00e9e difficile';
+  document.getElementById('ubtn').style.background='#fff';
+  document.getElementById('uinfo').style.display='none';
+  initAutoRang();
+  render();renderTodos();renderHistory();
+  var b=document.getElementById('rbtn');
+  b.textContent='\u2713 Nouvelle journ\u00e9e lanc\u00e9e !';b.style.color='#34D399';b.style.borderColor='#34D399';
+  setTimeout(function(){b.textContent='🔄 Nouvelle journ\u00e9e';b.style.color='';b.style.borderColor='';},2000);
+}
+
+// ===================== RENDER =====================
+function mkSiesteWidget(){
+  var cnt=getSiesteCount();
+  return '<div class="sw">'
+    +'<div class="sw-top"><span class="sw-title">💆‍♀️ Ma sieste</span><span class="sw-badge" id="sw-badge">😴 '+cnt+' cette semaine</span></div>'
+    +'<div class="sw-presets">'
+    +'<button class="swp sel" data-m="45" onclick="setSieste(45)">🌙 45 min<br><small style="font-size:9px;opacity:.7">cycle l\u00e9ger</small></button>'
+    +'<button class="swp" data-m="90" onclick="setSieste(90)">💜 1h30<br><small style="font-size:9px;opacity:.7">cycle complet</small></button>'
+    +'</div>'
+    +'<div class="sw-disp" id="sw-disp">'+fmt(45*60)+'</div>'
+    +'<button class="sw-go" id="sw-go" onclick="toggleSieste()">▶ D\u00e9marrer ma sieste</button>'
+    +'<div class="sw-msg" id="sw-msg">Choisis ta dur\u00e9e et appuie 💜</div>'
+    +'</div>';
+}
+
+function render(){
+  var cont=document.getElementById('secs');cont.innerHTML='';
+  for(var i=0;i<DATA.length;i++){
+    var s=DATA[i],vis=[],done=0;
+    for(var j=0;j<s.tasks.length;j++){if(!s.tasks[j].sieste&&isVis(s.tasks[j])){vis.push(s.tasks[j]);if(ckd[s.tasks[j].id])done++;}}
+    var bdgS=vis.length&&done===vis.length?'background:'+s.col+';color:#fff':'';
+    var rows='';
+    // rang info
+    if(s.rang){
+      var ri_lbl=rc==='bas'?'🏡 Rangement du bas aujourd\u2019hui':'🛏️ Rangement du haut aujourd\u2019hui';
+      var ri_col=rc==='bas'?'#0F766E':'#1D4ED8',ri_bg=rc==='bas'?'#ECFDF5':'#EEF7FF',ri_bd=rc==='bas'?'#2DD4BF':'#6BB8F5';
+      rows+='<div class="rang-info" style="background:'+ri_bg+';border:1.5px solid '+ri_bd+'"><p style="font-size:12px;font-weight:800;color:'+ri_col+'">📌 '+ri_lbl+'</p><p style="font-size:10px;color:#aaa;font-weight:600;margin-top:3px">Rotation automatique — demain ce sera l\u2019autre 🔄</p></div>';
+    }
+    for(var j=0;j<s.tasks.length;j++){
+      var t=s.tasks[j];
+      if(t.sieste){rows+=mkSiesteWidget();continue;}
+      var ck=ckd[t.id];
+      var cls='trow'+(t.pr?' pr':t.sp?' sp':'')+(ck?' ck':'')+(t.rng&&t.rng!==rc?' hid':'')+(urgOn&&!t.urg?' hid':'');
+      var acc=t.pr?'#A78BFA':t.sp?'#FF9F5A':'#ddd';
+      var cbBg=ck?(t.pr?'#A78BFA':t.sp?'#FF9F5A':s.col):(t.pr?'#F5F3FF':t.sp?'#FFF4EC':'#fff');
+      var cbBd=ck?cbBg:acc;
+      rows+='<div class="'+cls+'" id="row_'+t.id+'" onclick="toggleTask(\''+t.id+'\')">'
+        +'<div class="cb" id="cb_'+t.id+'" style="background:'+cbBg+';border-color:'+cbBd+';color:'+(ck?'#fff':'')+'">'+(ck?'\u2713':'')+'</div>'
+        +'<div class="ttx">'+t.tx+'</div>'
+        +'<div class="tmeta"><span class="tt">'+t.ti+'</span><span class="td">'+'\u26a1'.repeat(t.dp)+'</span></div>'
+        +'<button class="tbtn" onclick="event.stopPropagation();openT(\''+t.tx.replace(/\u2019/g,"\u2019")+'\')">⏱</button>'
+        +'</div>';
+    }
+    var div=document.createElement('div');div.className='sec';div.id=s.id;
+    div.innerHTML='<div class="shdr" id="shdr_'+s.id+'" style="background:'+s.bg+';border-left-color:'+s.col+'">'
+      +'<h2 style="color:'+s.col+'">'+s.title+'</h2>'
+      +'<div style="display:flex;align-items:center;gap:5px"><span class="badge" id="bdg_'+s.id+'" style="'+bdgS+'">'+done+'/'+vis.length+'</span><span class="chev" style="color:'+s.col+'">▾</span></div>'
+      +'</div><div class="sbody">'+rows+'</div>';
+    cont.appendChild(div);
+    (function(sid){
+      document.getElementById('shdr_'+sid).addEventListener('click',function(){
+        var el=document.getElementById(sid);
+        if(el.classList.contains('col'))el.classList.remove('col');else el.classList.add('col');
+      });
+    })(s.id);
+  }
+  updateUI();
+}
+
+function initToggle(hid,sid){
+  document.getElementById(hid).addEventListener('click',function(){
+    var el=document.getElementById(sid);
+    if(el.classList.contains('col'))el.classList.remove('col');else el.classList.add('col');
+  });
+}
+
+// ===================== INIT =====================
+loadState();loadDemain();
+initDate();loadPrieres();initEnergie();
+if(urgOn){
+  document.getElementById('ubtn').textContent='\u2715 D\u00e9sactiver le mode urgence';
+  document.getElementById('ubtn').style.background='#FFF1F2';
+  document.getElementById('uinfo').style.display='block';
+}
+render();renderTodos();renderHistory();
+document.getElementById('tadd-btn').addEventListener('click',function(){addTodo();});
+document.getElementById('todoinput').addEventListener('keydown',function(e){if(e.key==='Enter')addTodo();});
+document.getElementById('clrdone').addEventListener('click',function(){todos=todos.filter(function(t){return !t.done;});saveTodos();renderTodos();});
+document.getElementById('bsave').addEventListener('click',saveNotes);
+document.getElementById('brep').addEventListener('click',reportNotes);
+document.getElementById('bclr').addEventListener('click',clearNotes);
+document.getElementById('notesarea').addEventListener('input',function(){ss('r_notes',this.value);});
+document.getElementById('rbtn').addEventListener('click',resetAll);
+initToggle('bhdr-todo','bsec-todo');
+initToggle('bhdr-notes','bsec-notes');
+initToggle('bhdr-hist','bsec-hist');
+</script>
+</body>
+</html>
